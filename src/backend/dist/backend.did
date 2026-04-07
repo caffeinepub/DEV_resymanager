@@ -1,0 +1,106 @@
+type UserView = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+   inviteStatus: InviteStatus;
+   inviteToken: text;
+   isActive: bool;
+   name: text;
+   "principal": opt principal;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserId = nat;
+type UpdateReservationRequest = 
+ record {
+   arriveTime: MinutesFromMidnight;
+   date: DateString;
+   guestCount: nat;
+   id: nat;
+   leaveTime: opt MinutesFromMidnight;
+   name: text;
+   notes: text;
+   phone: text;
+ };
+type Timestamp = int;
+type ReservationView = 
+ record {
+   arriveTime: MinutesFromMidnight;
+   createdAt: Timestamp;
+   date: DateString;
+   guestCount: nat;
+   id: nat;
+   leaveTime: opt MinutesFromMidnight;
+   name: text;
+   notes: text;
+   phone: text;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type MinutesFromMidnight = nat;
+type InviteStatus = 
+ variant {
+   accepted;
+   pending;
+ };
+type DayOfWeek = 
+ variant {
+   fri;
+   mon;
+   sat;
+   sun;
+   thu;
+   tue;
+   wed;
+ };
+type DayHours = 
+ record {
+   closeTime: MinutesFromMidnight;
+   day: DayOfWeek;
+   isOpen: bool;
+   openTime: MinutesFromMidnight;
+ };
+type DateString = text;
+type CreateUserRequest = 
+ record {
+   email: text;
+   name: text;
+ };
+type CreateReservationRequest = 
+ record {
+   arriveTime: MinutesFromMidnight;
+   date: DateString;
+   guestCount: nat;
+   leaveTime: opt MinutesFromMidnight;
+   name: text;
+   notes: text;
+   phone: text;
+ };
+type AuthResult = 
+ variant {
+   deactivated;
+   notFound;
+   ok: UserView;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  acceptInvite: (inviteToken: text) -> (opt UserView);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createReservation: (req: CreateReservationRequest) -> (ReservationView);
+  createUser: (req: CreateUserRequest) -> (text);
+  deactivateUser: (userId: UserId) -> (bool);
+  deleteReservation: (id: nat) -> (bool);
+  getAllOpenHours: () -> (vec DayHours) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getMe: () -> (AuthResult);
+  isCallerAdmin: () -> (bool) query;
+  listReservationsByDate: (date: DateString) -> (vec ReservationView) query;
+  listUsers: () -> (vec UserView) query;
+  setDayHours: (dayHours: DayHours) -> ();
+  updateReservation: (req: UpdateReservationRequest) -> (bool);
+}

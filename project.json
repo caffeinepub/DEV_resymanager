@@ -1,0 +1,23 @@
+{
+  "overview": "A single-tenant restaurant reservation management app with invite-based staff access, per-day open hours settings, and a time-aware reservation list UI that respects late-night service windows.",
+  "features": [
+    "Invite-only staff access with pending/accepted/deactivated user states",
+    "First sign-up becomes admin instantly; further sign-ups blocked",
+    "Admin user management: create users, copy invite links, deactivate accounts",
+    "Admin open hours settings per day of week",
+    "Time-aware reservation list: respects late-night closing windows across midnight",
+    "Date navigation with prev/next open day buttons",
+    "Reservation CRUD: add, edit, delete with form validation",
+    "Summary bar showing total reservations and guest count per day",
+    "Employee auto-filled on new reservations"
+  ],
+  "category": "productivity",
+  "tags": [
+    "restaurant",
+    "reservations",
+    "admin",
+    "single-tenant",
+    "scheduling"
+  ],
+  "last_updated": "2026-04-05T15:34:23.885Z"
+}

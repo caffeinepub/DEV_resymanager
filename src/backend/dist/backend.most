@@ -1,0 +1,79 @@
+// Version: 1.0.0
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DateString__655998409 = Text;
+type DayHours__747636443 =
+  {
+    closeTime : MinutesFromMidnight__804979775;
+    day : DayOfWeek__791624275;
+    isOpen : Bool;
+    openTime : MinutesFromMidnight__804979775
+  };
+type DayOfWeek__791624275 = {#fri; #mon; #sat; #sun; #thu; #tue; #wed};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type InviteStatus__851612212 = {#accepted; #pending};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type MinutesFromMidnight__804979775 = Nat;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Reservation__811982310 =
+  {
+    arriveTime : MinutesFromMidnight__804979775;
+    createdAt : Timestamp__301639476;
+    date : DateString__655998409;
+    guestCount : Nat;
+    id : Nat;
+    leaveTime : ?MinutesFromMidnight__804979775;
+    name : Text;
+    notes : Text;
+    phone : Text;
+    var updatedAt : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Nat;
+type UserRole__1054455867 = {#admin; #guest; #user};
+type User__98118558 =
+  {
+    createdAt : Timestamp__301639476;
+    email : Text;
+    id : UserId__158757552;
+    var inviteStatus : InviteStatus__851612212;
+    var inviteToken : Text;
+    var isActive : Bool;
+    name : Text;
+    var principal : ?Principal
+  };
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable var nextReservationId : Nat;
+  stable var nextUserId : Nat;
+  stable openHours :
+    {
+      var root : Node__46230540<DayOfWeek__791624275, DayHours__747636443>;
+      var size : Nat__490723111
+    };
+  stable reservations :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Reservation__811982310]];
+      var elementIndex : Nat__490723111
+    };
+  stable users :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?User__98118558]];
+      var elementIndex : Nat__490723111
+    }
+};
